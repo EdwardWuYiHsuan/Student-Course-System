@@ -5,6 +5,7 @@
    	<groupId>com.poseitech</groupId>
 	<artifactId>poseitech-java-assignments</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
 
 	<properties>
 		<project.encoding>UTF-8</project.encoding>
@@ -22,7 +23,6 @@
 		<version.spring-cloud-config>1.0.4.RELEASE</version.spring-cloud-config>
 		<version.spring-cloud-netflix>1.0.7.RELEASE</version.spring-cloud-netflix>
 		<version.spring-boot-starter-security>1.3.6.RELEASE</version.spring-boot-starter-security>
-
 		<!-- END : boms -->
 
 		<version.commons-beanutils>1.9.2</version.commons-beanutils>
@@ -248,23 +248,32 @@
          	<groupId>org.slf4j</groupId>
          	<artifactId>slf4j-api</artifactId>
       	</dependency>
+      	
+      	<dependency>
+        	<groupId>org.springframework.boot</groupId>
+        	<artifactId>spring-boot-devtools</artifactId> <!-- Spring boot development tool, When class、config file and static page change in eclipse tool, App will restart. -->
+        	<optional>true</optional>
+    	</dependency>
+    	
+    	<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-data-jpa</artifactId> <!-- Spring boot jap. -->
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.hsqldb</groupId>
+    		<artifactId>hsqldb</artifactId>  <!-- hsql db jdbc driver. -->
+    		<version>2.3.4</version><!--$NO-MVN-MAN-VER$-->
+		</dependency>
 	</dependencies>
 	
 	
 	<!-- == Build Settings == -->
 	<build>
-		<finalName>studentCourseSys</finalName>
 		<plugins>
 			<plugin>
-				<groupId>org.springframework.boot</groupId>
-	                <artifactId>spring-boot-maven-plugin</artifactId> <!-- Spring boot development tool, To create a fully executable jar with Maven -->
-	                <configuration>
-	                    <fork>true</fork>
-	                </configuration>
-			</plugin>
-			<plugin>
 	            <groupId>org.apache.maven.plugins</groupId>
-	            <artifactId>maven-compiler-plugin</artifactId>
+	            <artifactId>maven-compiler-plugin</artifactId>  <!-- config maven jdk compiler. -->
 	            <version>2.1</version>
 	            <configuration>
 	                <source>1.7</source>
@@ -273,7 +282,6 @@
 	        </plugin>
 		</plugins>
 	</build>
-	
 	
 </project>
 
