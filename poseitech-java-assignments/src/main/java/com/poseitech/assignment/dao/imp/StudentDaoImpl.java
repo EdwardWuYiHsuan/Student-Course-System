@@ -32,7 +32,11 @@ public class StudentDaoImpl implements StudentDao {
 	@Override
 	public Student findById(Integer pStudentId) throws Exception 
 	{
-		return (Student) getSession().get(Student.class, pStudentId.longValue());
+		Object student = getSession().get(Student.class, pStudentId.longValue());
+		if (null != student)
+			return (Student) student;
+		
+		return null;
 	}
 
 	@Override
@@ -69,14 +73,8 @@ public class StudentDaoImpl implements StudentDao {
 	}
 	
 	@Override
-	public boolean isExist(Long id) 
-	{
-		return null != getSession().get(Student.class, id);
-	}
-	
-	@Override
 	@SuppressWarnings("unchecked")
-	public List<Student> getList()
+	public List<Student> findAll()
 	{
 		Criteria criteria = getSession().createCriteria(Student.class);
 		

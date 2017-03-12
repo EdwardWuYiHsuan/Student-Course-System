@@ -30,7 +30,5 @@ public interface StudentDao {
    //
    public List<Student> findByNamedQuery(String pNameQuery, Class<?> clazz, Object[] params, int pStartRowNumber, int pFectchSize) throws Exception;
    
-   public boolean isExist(Long id);
-   
-   public List<Student> getList();
+   public List<Student> findAll();
 }
