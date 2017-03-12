@@ -10,8 +10,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "student_course_grade")
-public class StudentCourseGrade implements Serializable {
+@Table(name = "student_project_grade")
+public class StudentProjectGrade implements Serializable {
 
 	private static final long serialVersionUID = -7551619327554543179L;
 

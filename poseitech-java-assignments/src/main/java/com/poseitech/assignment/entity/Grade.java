@@ -23,7 +23,7 @@ public class Grade {
 	private String remark;
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "grade")
-    private Set<StudentCourseGrade> studentCourseGrade = new HashSet<StudentCourseGrade>(0);
+    private Set<StudentProjectGrade> studentCourseGrade = new HashSet<StudentProjectGrade>(0);
 	
 	
 	public Character getLevel() {
@@ -42,11 +42,11 @@ public class Grade {
 		this.remark = remark;
 	}
 
-	public Set<StudentCourseGrade> getStudentCourseGrade() {
+	public Set<StudentProjectGrade> getStudentCourseGrade() {
 		return studentCourseGrade;
 	}
 
-	public void setStudentCourseGrade(Set<StudentCourseGrade> studentCourseGrade) {
+	public void setStudentCourseGrade(Set<StudentProjectGrade> studentCourseGrade) {
 		this.studentCourseGrade = studentCourseGrade;
 	}
 	

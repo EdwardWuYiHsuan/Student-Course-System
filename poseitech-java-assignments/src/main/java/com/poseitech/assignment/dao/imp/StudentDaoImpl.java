@@ -1,5 +1,6 @@
 package com.poseitech.assignment.dao.imp;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -7,11 +8,16 @@ import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.Session;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.poseitech.assignment.dao.ProjectDao;
 import com.poseitech.assignment.dao.StudentDao;
+import com.poseitech.assignment.entity.Project;
 import com.poseitech.assignment.entity.Student;
+import com.poseitech.assignment.entity.StudentProjectGrade;
 
 @Repository
 @Transactional
@@ -19,6 +25,8 @@ public class StudentDaoImpl implements StudentDao {
 	
 	@PersistenceContext
 	private EntityManager entityManager;
+	@Autowired
+	private ProjectDao projectDao;
 	
 	
 	@Override
@@ -42,7 +50,14 @@ public class StudentDaoImpl implements StudentDao {
 	@Override
 	public List<Student> findStudentByProjectId(Integer pProjectId) throws Exception 
 	{
-		return null;
+		Project project = projectDao.findById(pProjectId.longValue());
+		
+		List<Student> studentList = new ArrayList<>();
+		for (StudentProjectGrade scg : project.getStudentCourseGrade()) {
+			studentList.add(scg.getStudent());
+		}
+		
+		return studentList;
 	}
 
 	@Override
@@ -55,15 +70,46 @@ public class StudentDaoImpl implements StudentDao {
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public List<Student> findAllStudents(int pStartRowNumber, int pFectchSize) throws Exception 
 	{
-		return null;
+		Criteria criteria = getSession().createCriteria(Student.class)
+										.setFirstResult(pStartRowNumber)
+										.setFetchSize(pFectchSize);
+		
+		return (List<Student>) criteria.list();
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public List<Student> findByHql(String pHql, int pStartRowNumber, int pFectchSize, Object... pValues) throws Exception 
 	{
-		return null;
+		Query query = getSession().createQuery(pHql);
+		for (int i = 0; i < pValues.length; i++) {
+			Object value = pValues[i];
+			if (value instanceof Character) {
+				query.setCharacter(i, (Character) value);
+			} else if (value instanceof Boolean) {
+				query.setBoolean(i, (Boolean) value);
+			} else if (value instanceof Byte) {
+				query.setByte(i, (Byte) value);
+			} else if (value instanceof Short) {
+				query.setShort(i, (Short) value);
+			} else if (value instanceof Integer) {
+				query.setInteger(i, (Integer) value);
+			} else if (value instanceof Long) {
+				query.setLong(i, (Long) value);
+			} else if (value instanceof Float) {
+				query.setFloat(i, (Float) value);
+			} else if (value instanceof Double) {
+				query.setDouble(i, (Double) value);
+			} else {
+				query.setString(i, (String) value);
+			}
+		}
+		query.setFirstResult(pStartRowNumber).setFetchSize(pFectchSize);
+		
+		return (List<Student>) query.list();
 	}
 
 	@Override
