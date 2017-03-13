@@ -2,6 +2,7 @@ package com.poseitech.assignment.exception;
 
 import com.poseitech.assignment.enumeration.APICode;
 
+@SuppressWarnings("serial")
 public class ApiException extends Exception {
 	
 	private APICode code;

@@ -1,7 +1,7 @@
 package com.poseitech.assignment.enumeration;
 
 public enum GradeLevel {
-	A, B, C, D, E;
+	A, B, C, D;
 	
 	
 //	public static GradeLevel getGradeLevelByStr(String levelStr)
