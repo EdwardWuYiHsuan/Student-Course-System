@@ -45,7 +45,7 @@ public class Student implements Serializable {
 	private Date birthday;
    
 	@NotNull
-	@Type(type = "timestamp")
+	@Type(type = "date")
 	private Date registerDate;
    
 	@Size(max = 100)
@@ -54,10 +54,6 @@ public class Student implements Serializable {
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "student")
     private Set<StudentProjectGrade> studentProjectGrade = new HashSet<StudentProjectGrade>(0);
 	
-	
-	public Student() {
-		this.registerDate = new Date();
-	}
 	
 	public Long getId() {
 		return id;
@@ -81,6 +77,10 @@ public class Student implements Serializable {
 	
 	public Date getRegisterDate() {
 		return registerDate;
+	}
+	
+	public void setRegisterDate(Date registerDate) {
+		this.registerDate = registerDate;
 	}
 	
 	public String getRemark() {

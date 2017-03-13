@@ -1,5 +1,7 @@
 package com.poseitech.assignment.mvc.controller;
 
+import java.util.UUID;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -8,8 +10,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.poseitech.assignment.exception.ApiException;
 import com.poseitech.assignment.response.DefaultResponse;
 import com.poseitech.assignment.response.Result;
+
+import ch.qos.logback.classic.spi.ThrowableProxyVO;
 
 public class DefaultController {
 
@@ -19,8 +24,17 @@ public class DefaultController {
 	
 	public DefaultResponse renderErrorResponse(Throwable causeEx)
 	{
-		System.out.printf("API [%s] Error:\t%s\n", request.getRequestURL().toString(), causeEx.getMessage());
+		String apiName = request.getRequestURL().toString(),
+			   logCode = UUID.randomUUID().toString().split("-")[0],
+			   reason = causeEx.getMessage();
+		
+		System.out.printf("API [%s],\tLog Code: %s,\tError: %s\n", apiName, logCode, reason);
 		System.out.println(ExceptionUtils.getStackTrace(causeEx));
+		
+		if ((causeEx instanceof ApiException) == false) {
+			String convertMsg = String.format("Internal Server Error, Please seek Admin to find root cause in log by log-code '%s'", logCode);
+			causeEx = new Throwable(convertMsg, causeEx);
+		}
 		
 		return new DefaultResponse(Result.error, causeEx);
 	}

@@ -31,4 +31,5 @@ public interface StudentDao {
    public List<Student> findByNamedQuery(String pNameQuery, Class<?> clazz, Object[] params, int pStartRowNumber, int pFectchSize) throws Exception;
    
    public List<Student> findAll();
+   
 }

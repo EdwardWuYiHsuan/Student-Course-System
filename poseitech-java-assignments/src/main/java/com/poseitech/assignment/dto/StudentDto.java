@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.poseitech.assignment.entity.Student;
+
 public class StudentDto implements Serializable {
 
    private static final long serialVersionUID = 3209888691671533902L;
@@ -71,6 +73,17 @@ public class StudentDto implements Serializable {
 		   interestedProjects = new ArrayList<>();
 	   
 	   interestedProjects.add(projectDto);
+   }
+   
+   public Student convertStudentEntity() 
+   {
+	   Student student = new Student();
+	   student.setName(this.getName());
+	   student.setBirthday(this.getBirthday());
+	   student.setRegisterDate(this.getRegisterDate());
+	   student.setRemark(this.getRemark());
+	   
+	   return student;
    }
 
 }

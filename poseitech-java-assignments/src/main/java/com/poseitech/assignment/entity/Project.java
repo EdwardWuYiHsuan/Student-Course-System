@@ -102,4 +102,20 @@ public class Project implements Serializable {
 		return dto;
 	}
 	
+	@Override
+	public int hashCode() {
+		return this.id.intValue();
+	}
+	
+	@Override
+	public boolean equals(Object obj) 
+	{
+		if (null == obj)
+			return false;
+		if (this.getClass() != obj.getClass())
+			return false;
+		final Project anoProject = (Project) obj;
+		return this.getName().equals(anoProject.getName());
+	}
+	
 }

@@ -1,7 +1,9 @@
 package com.poseitech.assignment.service;
 
+import java.util.Date;
 import java.util.List;
 
+import com.poseitech.assignment.dto.InquireGradeDto;
 import com.poseitech.assignment.dto.ProjectDto;
 import com.poseitech.assignment.dto.StudentDto;
 
@@ -32,4 +34,8 @@ public interface AssignmentService {
    public boolean deleteProjects(List<ProjectDto> pProjects) throws Exception;
    
    public StudentDto getStudentById(int studentId) throws Exception;
+   
+   public List<StudentDto> getStudentByCondition(Integer studentId, String name, Date registerDate) throws Exception;
+   
+   public List<InquireGradeDto> inquireStudentCountByGrade() throws Exception;
 }

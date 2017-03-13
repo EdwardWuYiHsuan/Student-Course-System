@@ -3,6 +3,8 @@ package com.poseitech.assignment.dto;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.poseitech.assignment.entity.Project;
+
 public class ProjectDto implements Serializable {
    
 	private static final long serialVersionUID = -8001753971454616296L;
@@ -35,6 +37,15 @@ public class ProjectDto implements Serializable {
 	}
 	public void setRemark(String remark) {
 		this.remark = remark;
+	}
+	
+	public Project convertProjectEntity()
+	{
+		Project project = new Project();
+		project.setName(this.getName());
+		project.setRemark(this.getRemark());
+		
+		return project;
 	}
 	
 }

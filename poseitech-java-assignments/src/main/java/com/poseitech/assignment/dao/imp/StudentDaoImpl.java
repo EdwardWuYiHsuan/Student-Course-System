@@ -1,6 +1,7 @@
 package com.poseitech.assignment.dao.imp;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -103,11 +104,17 @@ public class StudentDaoImpl implements StudentDao {
 				query.setFloat(i, (Float) value);
 			} else if (value instanceof Double) {
 				query.setDouble(i, (Double) value);
+			} else if (value instanceof Date) {
+				query.setDate(i, (Date) value);
 			} else {
 				query.setString(i, (String) value);
 			}
 		}
-		query.setFirstResult(pStartRowNumber).setFetchSize(pFectchSize);
+		
+		if (pStartRowNumber >= 0)
+			query.setFirstResult(pStartRowNumber);
+		if (pFectchSize >= 0)
+			query.setFetchSize(pFectchSize);
 		
 		return (List<Student>) query.list();
 	}
@@ -115,7 +122,9 @@ public class StudentDaoImpl implements StudentDao {
 	@Override
 	public List<Student> findByNamedQuery(String pNameQuery, Class<?> clazz, Object[] params, int pStartRowNumber, int pFectchSize) throws Exception 
 	{
-		return null;
+		// not clear what second parameter is, explain from feedback letter, this method requirement seem like above method.
+		
+		return this.findByHql(pNameQuery, pStartRowNumber, pFectchSize, params);
 	}
 	
 	@Override
