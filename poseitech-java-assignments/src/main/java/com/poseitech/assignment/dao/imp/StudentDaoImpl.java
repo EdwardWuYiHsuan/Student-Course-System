@@ -53,7 +53,7 @@ public class StudentDaoImpl implements StudentDao {
 		Project project = projectDao.findById(pProjectId.longValue());
 		
 		List<Student> studentList = new ArrayList<>();
-		for (StudentProjectGrade scg : project.getStudentCourseGrade()) {
+		for (StudentProjectGrade scg : project.getStudentProjectGrade()) {
 			studentList.add(scg.getStudent());
 		}
 		

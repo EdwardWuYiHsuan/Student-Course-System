@@ -25,7 +25,6 @@ public class StudentProjectGrade implements Serializable {
 	@JoinColumn(name = "project_id")
 	private Project project;
  
-	@Id
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "level")
 	private Grade grade;

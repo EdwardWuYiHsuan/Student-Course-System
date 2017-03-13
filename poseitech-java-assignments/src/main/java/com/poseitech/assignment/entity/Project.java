@@ -21,6 +21,8 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Type;
 
+import com.poseitech.assignment.dto.ProjectDto;
+
 @Entity
 @Table(name = "project")
 public class Project implements Serializable {
@@ -46,7 +48,7 @@ public class Project implements Serializable {
 	private String remark;
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "project")
-    private Set<StudentProjectGrade> studentCourseGrade = new HashSet<StudentProjectGrade>(0);
+    private Set<StudentProjectGrade> studentProjectGrade = new HashSet<StudentProjectGrade>(0);
 	
 	
 	public Project() {
@@ -77,12 +79,27 @@ public class Project implements Serializable {
 		this.remark = remark;
 	}
 
-	public Set<StudentProjectGrade> getStudentCourseGrade() {
-		return studentCourseGrade;
+	public Set<StudentProjectGrade> getStudentProjectGrade() {
+		return studentProjectGrade;
 	}
 
-	public void setStudentCourseGrade(Set<StudentProjectGrade> studentCourseGrade) {
-		this.studentCourseGrade = studentCourseGrade;
+	public void setStudentProjectGrade(Set<StudentProjectGrade> studentProjectGrade) {
+		this.studentProjectGrade = studentProjectGrade;
+	}
+	
+	public void addStudentProjectGrade(StudentProjectGrade spg) {
+		this.studentProjectGrade.add(spg);
+	}
+	
+	public ProjectDto convertProjectDto() 
+	{
+		ProjectDto dto = new ProjectDto();
+		dto.setId(this.getId());
+		dto.setName(this.getName());
+		dto.setCreateDate(this.getCreateDate());
+		dto.setRemark(this.getRemark());
+		
+		return dto;
 	}
 	
 }

@@ -30,4 +30,6 @@ public interface AssignmentService {
 
    // 將專案資料自系統刪除，同時將這些專案自有感興趣的學生列表中移除。
    public boolean deleteProjects(List<ProjectDto> pProjects) throws Exception;
+   
+   public StudentDto getStudentById(int studentId) throws Exception;
 }
