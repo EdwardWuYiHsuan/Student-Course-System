@@ -74,11 +74,26 @@ public class StudentDaoImpl implements StudentDao {
 	@SuppressWarnings("unchecked")
 	public List<Student> findAllStudents(int pStartRowNumber, int pFectchSize) throws Exception 
 	{
-		Criteria criteria = getSession().createCriteria(Student.class)
-										.setFirstResult(pStartRowNumber)
-										.setFetchSize(pFectchSize);
+		Criteria criteria = getSession().createCriteria(Student.class);
 		
-		return (List<Student>) criteria.list();
+		if (pStartRowNumber >= 0)
+			criteria.setFirstResult(pStartRowNumber);
+//		if (pFectchSize >= 0) 
+//			criteria.setFetchSize(pFectchSize);
+		
+		if (pFectchSize >= 0) {
+			List<Student> queryResult = (List<Student>) criteria.list();
+			List<Student> studentList = new ArrayList<>();
+			
+			pFectchSize = pFectchSize > queryResult.size() ? queryResult.size() : pFectchSize;
+			for (int i = 0; i < pFectchSize; i++) {
+				studentList.add(queryResult.get(i));
+			}
+			
+			return studentList;
+		} else {
+			return (List<Student>) criteria.list();
+		}
 	}
 
 	@Override
@@ -113,10 +128,20 @@ public class StudentDaoImpl implements StudentDao {
 		
 		if (pStartRowNumber >= 0)
 			query.setFirstResult(pStartRowNumber);
-		if (pFectchSize >= 0)
-			query.setFetchSize(pFectchSize);
 		
-		return (List<Student>) query.list();
+		if (pFectchSize >= 0) {
+			List<Student> queryResult = (List<Student>) query.list();
+			List<Student> studentList = new ArrayList<>();
+			
+			pFectchSize = pFectchSize > queryResult.size() ? queryResult.size() : pFectchSize;
+			for (int i = 0; i < pFectchSize; i++) {
+				studentList.add(queryResult.get(i));
+			}
+			
+			return studentList;
+		} else {
+			return (List<Student>) query.list();
+		}
 	}
 
 	@Override

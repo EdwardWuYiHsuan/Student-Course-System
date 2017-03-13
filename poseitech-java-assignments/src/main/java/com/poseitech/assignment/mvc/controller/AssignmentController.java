@@ -51,11 +51,13 @@ public class AssignmentController extends DefaultController {
 	{
 		DefaultResponse response = new DefaultResponse();
 		try {
-			Date registerDate;
-			try {
-				registerDate = dateFormat.parse(registerStr);
-			} catch (ParseException e) {
-				throw new ApiException(APICode.InvalidParameter, "invalid-register-date-format");
+			Date registerDate = null;
+			if (null != registerStr) {
+				try {
+					registerDate = dateFormat.parse(registerStr);
+				} catch (ParseException e) {
+					throw new ApiException(APICode.InvalidParameter, "invalid-register-date-format");
+				}
 			}
 			
 			List<StudentDto> studentList = assignmentService.getStudentByCondition(id, name, registerDate);
@@ -86,7 +88,7 @@ public class AssignmentController extends DefaultController {
 	
 	@RequestMapping(params = "method=c", method = RequestMethod.POST)
 	public DefaultResponse createStudent(@RequestParam(value = "name") String name,
-			  				  			 @RequestParam(value = "birthday", required = false) String birthdayStr,
+			  				  			 @RequestParam(value = "birthday") String birthdayStr,
 			  				  			 @RequestParam(value = "registerDate") String registerDateStr,
 			  				  			 @RequestParam(value = "remark") String remark)
 	{
