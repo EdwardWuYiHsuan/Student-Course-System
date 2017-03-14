@@ -3,11 +3,10 @@ package com.poseitech.assignment.service.imp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
+import org.hibernate.NonUniqueObjectException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -85,19 +84,25 @@ public class AssignmentServiceImpl implements AssignmentService {
 	@Override
 	public StudentDto registerProjects(Integer pStudendId, List<ProjectDto> pProjects) throws Exception 
 	{
-		Student student = studentDao.findById(pStudendId);
-		if (null == student)
-			throw new ApiException(APICode.InvalidParameter, "invalid-student-id");
-		
-		Set<Project> projectList = new HashSet<>();
-		for (ProjectDto projectDto : pProjects) {
-			projectList.add(projectDto.convertProjectEntity());
+		try {
+			Student student = studentDao.findById(pStudendId);
+			if (null == student)
+				throw new ApiException(APICode.InvalidParameter, "invalid-student-id");
+			
+			for (ProjectDto projectDto : pProjects) {
+				Project project = projectDao.findById(projectDto.getId());
+				if (null == project)
+					throw new ApiException(APICode.InvalidParameter, "invalid-project-id");
+				
+				studentProjectGradeDao.addProjectToStudent(student, project);
+			}
+			
+			student = studentDao.findById(pStudendId);
+			
+			return student.convertStudentDto();
+		} catch (NonUniqueObjectException e) {
+			throw new ApiException(APICode.AccessFailed, "student-has-registered-project");
 		}
-		
-		studentProjectGradeDao.addProjectToStudent(student, projectList);
-		student = studentDao.findById(pStudendId);
-		
-		return student.convertStudentDto();
 	}
 
 	@Override

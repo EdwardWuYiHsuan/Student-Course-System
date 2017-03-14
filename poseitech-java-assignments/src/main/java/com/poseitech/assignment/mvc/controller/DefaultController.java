@@ -2,10 +2,7 @@ package com.poseitech.assignment.mvc.controller;
 
 import java.util.UUID;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.lang3.exception.ExceptionUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.poseitech.assignment.exception.ApiException;
 import com.poseitech.assignment.response.DefaultResponse;
@@ -13,17 +10,12 @@ import com.poseitech.assignment.response.Result;
 
 public class DefaultController {
 
-	@Autowired
-	private HttpServletRequest request;
-	
-	
 	public DefaultResponse renderErrorResponse(Throwable causeEx)
 	{
-		String apiName = request.getRequestURL().toString(),
-			   logCode = UUID.randomUUID().toString().split("-")[0],
+		String logCode = UUID.randomUUID().toString().split("-")[0],
 			   reason = causeEx.getMessage();
 		
-		System.out.printf("API [%s],\tLog Code: %s,\tError: %s\n", apiName, logCode, reason);
+		System.out.printf("[API]\tLog Code: %s,\tError: %s\n", logCode, reason);
 		System.out.println(ExceptionUtils.getStackTrace(causeEx));
 		
 		if ((causeEx instanceof ApiException) == false) {
