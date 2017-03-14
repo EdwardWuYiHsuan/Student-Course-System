@@ -1,0 +1,47 @@
+* {
+  padding: 0px;
+  margin: 0px
+}
+
+#wrapper {
+	width: 700px;
+	margin: auto;
+	padding-top: 30px;
+	padding-left: 10px;
+	padding-right: 10px;
+	text-align: center;
+}
+
+#wrapper h1 {
+	font-size: 25px;
+   	margin-bottom: 30px;
+}
+
+#wrapper table {
+	width: 100%;
+	font-size: 16px;
+	margin-top: 50px;
+}
+
+#wrapper table caption {
+	text-align: center;
+	font-size: 18px;
+}
+
+#wrapper table tr td:nth-child(1) {
+	width: 30%;
+	text-align: left;
+}
+
+#wrapper table tr td:nth-child(2) {
+	width: 70%;
+	text-align: left;
+}
+
+
+
+
+
+
+
+

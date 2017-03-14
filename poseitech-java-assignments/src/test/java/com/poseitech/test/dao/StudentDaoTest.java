@@ -39,7 +39,7 @@ public class StudentDaoTest extends AbstractTest {
 	private Date birthday;
 	private Date registerDate;
 	
-	 
+	
 	@Before
 	public void before() throws Exception 
 	{
@@ -121,7 +121,7 @@ public class StudentDaoTest extends AbstractTest {
 //		Student stu = studentDao.findById(Long.valueOf(studentId).intValue());
 //		System.out.println(stu.getName());
 //		System.out.println(stu.getStudentProjectGrade().size());
-//		
+		
 		List<Student> students = studentDao.findStudentByProjectId(Long.valueOf(projectId).intValue());
 		Assert.assertFalse(students.isEmpty());
 		assertEquals(1, students.size());

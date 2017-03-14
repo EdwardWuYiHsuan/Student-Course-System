@@ -150,7 +150,7 @@ public class AssignmentServiceImpl implements AssignmentService {
 				params.add(studentId);
 			}
 			
-			if (null != name) {
+			if (null != name && !name.trim().isEmpty()) {
 				hql.append("student.name = ? and ");
 				params.add(name);
 			}

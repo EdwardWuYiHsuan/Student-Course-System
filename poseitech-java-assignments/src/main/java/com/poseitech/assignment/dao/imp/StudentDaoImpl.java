@@ -74,13 +74,13 @@ public class StudentDaoImpl implements StudentDao {
 	@SuppressWarnings("unchecked")
 	public List<Student> findAllStudents(int pStartRowNumber, int pFectchSize) throws Exception 
 	{
-//		Criteria criteria = getSession().createCriteria(Student.class);  //there are some bugs in createCriteria() method.
+//		Criteria criteria = getSession().createCriteria(Student.class);
 		Query query = getSession().createQuery("from Student");
 		
 		if (pStartRowNumber >= 0)
 			query.setFirstResult(pStartRowNumber);
 		if (pFectchSize >= 0) 
-			query.setMaxResults(pFectchSize);   //there are some bugs in setFetchSize() method.
+			query.setMaxResults(pFectchSize);
 		
 		return (List<Student>) query.list();
 	}

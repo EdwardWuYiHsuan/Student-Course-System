@@ -1,0 +1,288 @@
+<!doctype html>
+
+<html lang="en">
+	<head>
+    	<title>Assignment Task</title>
+    	<meta charset="utf-8">
+    	<meta name="description" content="Assignment Task">
+    	<meta name="author" content="Edward Wu">
+		
+    	<link rel="stylesheet" href="css/bootstrap.css" type="text/css">
+    	<link rel="stylesheet" href="css/bootstrap-theme.css" type="text/css">
+    	<link rel="stylesheet" href="css/index.css" type="text/css">
+    	<script type="text/javascript" src="js/jquery.js"></script>
+    	<script type="text/javascript" src="js/bootstrap.js"></script>
+    	<script>
+    		function getStudentById(event) 
+    		{
+    			var val = $("#table1 input[type='text']").val();
+    			var url = "/assignments/api/v1/students/" + val;
+    			
+    			$.getJSON(url, function(responseData) {
+    				var jsonStr = JSON.stringify(responseData);
+    				$("#table1 tr:eq(3) td:eq(1)").text(jsonStr);
+    			})
+    		}
+    		
+    		function getStudentByCondition(event)
+    		{
+    			var parame = {};
+    			parame["id"] = $("#table2 input[name='id']").val();
+    			parame["name"] = $("#table2 input[name='name']").val();
+    			parame["registerDate"] = $("#table2 input[name='registerDate']").val();
+    			
+    			$.post("/assignments/api/v1/students?method=r", parame, function(responseData) {
+    				var jsonStr = JSON.stringify(responseData);
+    				$("#table2 tr:eq(3) td:eq(1)").text(jsonStr);
+    			});
+    		}
+    		
+    		function getAllStudentGet(event)
+    		{
+    			var start = $("#table3 input[name='start']").val(),
+    				limit = $("#table3 input[name='limit']").val();
+    			var url = "/assignments/api/v1/students?start=" + start + "&limit=" + limit;
+    			
+    			$.getJSON(url, function(responseData) {
+    				var jsonStr = JSON.stringify(responseData);
+    				$("#table3 tr:eq(3) td:eq(1)").text(jsonStr);
+    			})
+    		}
+    		
+    		function getAllStudentPost(event)
+    		{
+    			var param = {};
+    			param["start"] = $("#table4 input[name='start']").val();
+    			param["limit"] = $("#table4 input[name='limit']").val();
+    			
+    			$.post("/assignments/api/v1/students", param, function(responseData) {
+    				var jsonStr = JSON.stringify(responseData);
+    				$("#table4 tr:eq(3) td:eq(1)").text(jsonStr);
+    			});
+    		}
+    		
+    		function createStudent(event)
+    		{
+    			var param = {};
+    			param["name"] = $("#table5 input[name='name']").val();
+    			param["birthday"] = $("#table5 input[name='birthday']").val();
+    			param["registerDate"] = $("#table5 input[name='registerDate']").val();
+    			param["remark"] = $("#table5 input[name='remark']").val();
+    			
+    			$.post("/assignments/api/v1/students?method=c", param, function(responseData) {
+    				var jsonStr = JSON.stringify(responseData);
+    				$("#table5 tr:eq(3) td:eq(1)").text(jsonStr);
+    			});
+    		}
+    		
+    		function inquireStudentCountByGrade(event)
+    		{
+    			$.getJSON("/assignments/api/v1/students/grades", function(responseData) {
+    				var jsonStr = JSON.stringify(responseData);
+    				$("#table6 tr:eq(2) td:eq(1)").text(jsonStr);
+    			})
+    		}
+    	</script>
+	</head>
+
+	<body>
+		<div id="wrapper">
+		  	<h1>RESTful API Page</h1>
+		  	<table class="table" id="table1">
+		  		<caption>查詢特定的學生</caption>
+		  		<tr>
+		  			<td>RESTful URL Template</td>
+		  			<td>/assignments/api/v1/students/{studentId}</td>
+		  		</tr>
+		  		<tr>
+		  			<td>Support HTML Method</td>
+		  			<td>GET</td>
+		  		</tr>
+		  		<tr>
+		  			<td>HTTP Post Body</td>
+		  			<td>
+		  				<label>
+		  					Student Id
+  								<input type="text" name="studentId" />
+						</label>
+					</td>
+		  		</tr>
+		  		<tr>
+		  			<td>RESTful Response</td>
+		  			<td style="table-layout:fixed">{}</td>
+		  		</tr>
+		  		<tr>
+		  			<td colspan="2"><input type="button" class="btn btn-primary btn-block" value="Submit" onclick="getStudentById(event)" ></td>
+		  		</tr>
+		  	</table>
+		  	<table class="table" id="table2">
+		  		<caption>依條件查詢學生</caption>
+		  		<tbody>
+			  		<tr>
+			  			<td>RESTful URL Template</td>
+			  			<td>/assignments/api/v1/students?_method=r</td>
+			  		</tr>
+			  		<tr>
+			  			<td>Support HTML Method</td>
+			  			<td>POST</td>
+			  		</tr>
+			  		<tr>
+			  			<td>HTTP Post Body</td>
+			  			<td>
+			  				<label>
+			  					Student Id
+	  								<input type="text" name="id" />
+							</label>
+							<label>
+			  					Student Name
+	  								<input type="text" name="name" />
+							</label>
+							<label>
+			  					Register Date(yyyyMMdd)
+	  								<input type="text" name="registerDate" />
+							</label>
+						</td>
+			  		</tr>
+			  		<tr>
+			  			<td>RESTful Response</td>
+			  			<td>{}</td>
+			  		</tr>
+			  		<tr>
+			  			<td colspan="2"><input type="button" class="btn btn-primary btn-block" value="Submit" title="submit" onclick="getStudentByCondition(event)" ></td>
+			  		</tr>
+		  		</tbody>
+		  	</table>
+		  	<table class="table" id="table3">
+		  		<caption>查詢所有學生 (GET)</caption>
+		  		<tbody>
+			  		<tr>
+			  			<td>RESTful URL Template</td>
+			  			<td>/assignments/api/v1/students?start={startRowNumber}&limit={limit}</td>
+			  		</tr>
+			  		<tr>
+			  			<td>Support HTML Method</td>
+			  			<td>GET</td>
+			  		</tr>
+			  		<tr>
+			  			<td>HTTP Post Body</td>
+			  			<td>
+			  				<label>
+			  					Start
+	  								<input type="text" name="start" />
+							</label>
+							<label>
+			  					Limit
+	  								<input type="text" name="limit" />
+							</label>
+			  			</td>
+			  		</tr>
+			  		<tr>
+			  			<td>RESTful Response</td>
+			  			<td>{}</td>
+			  		</tr>
+			  		<tr>
+			  			<td colspan="2"><input type="button" class="btn btn-primary btn-block" value="Submit" title="submit" onclick="getAllStudentGet(event)" ></td>
+			  		</tr>
+		  		</tbody>
+		  	</table>
+		  	<table class="table" id="table4">
+		  		<caption>查詢所有學生 (POST)</caption>
+		  		<tbody>
+			  		<tr>
+			  			<td>RESTful URL Template</td>
+			  			<td>/assignments/api/v1/students?start={startRowNumber}&limit={limit}</td>
+			  		</tr>
+			  		<tr>
+			  			<td>Support HTML Method</td>
+			  			<td>POST</td>
+			  		</tr>
+			  		<tr>
+			  			<td>HTTP Post Body</td>
+			  			<td>
+			  				<label>
+			  					Start
+	  								<input type="text" name="start" />
+							</label>
+							<label>
+			  					Limit
+	  								<input type="text" name="limit" />
+							</label>
+			  			</td>
+			  		</tr>
+			  		<tr>
+			  			<td>RESTful Response</td>
+			  			<td>{}</td>
+			  		</tr>
+			  		<tr>
+			  			<td colspan="2"><input type="button" class="btn btn-primary btn-block" value="Submit" title="submit" onclick="getAllStudentPost(event)" ></td>
+			  		</tr>
+		  		</tbody>
+		  	</table>
+		  	<table class="table" id="table5">
+		  		<caption>新增一個學生</caption>
+		  		<tbody>
+			  		<tr>
+			  			<td>RESTful URL Template</td>
+			  			<td>/assignments/api/v1/students?_method=c</td>
+			  		</tr>
+			  		<tr>
+			  			<td>Support HTML Method</td>
+			  			<td>POST</td>
+			  		</tr>
+			  		<tr>
+			  			<td>HTTP Post Body</td>
+			  			<td>
+			  				<label>
+			  					Name
+	  								<input type="text" name="name" />
+							</label>
+							<label>
+			  					Birthday(yyyyMMdd)
+	  								<input type="text" name="birthday" />
+							</label>
+							<label>
+			  					Register Date(yyyyMMdd)
+	  								<input type="text" name="registerDate" />
+							</label>
+							<label>
+			  					Remark
+	  								<input type="text" name="remark" />
+							</label>
+			  			</td>
+			  		</tr>
+			  		<tr>
+			  			<td>RESTful Response</td>
+			  			<td>{}</td>
+			  		</tr>
+			  		<tr>
+			  			<td colspan="2"><input type="button" class="btn btn-primary btn-block" value="Submit" title="submit" onclick="createStudent(event)" ></td>
+			  		</tr>
+		  		</tbody>
+		  	</table>
+		  	<table class="table" id="table6">
+		  		<caption>查詢各科成績的學生人數</caption>
+		  		<tbody>
+			  		<tr>
+			  			<td>RESTful URL Template</td>
+			  			<td>/assignments/api/v1/students/grades</td>
+			  		</tr>
+			  		<tr>
+			  			<td>Support HTML Method</td>
+			  			<td>GET</td>
+			  		</tr>
+			  		<tr>
+			  			<td>RESTful Response</td>
+			  			<td>{}</td>
+			  		</tr>
+			  		<tr>
+			  			<td colspan="2"><input type="button" class="btn btn-primary btn-block" value="Submit" title="submit" onclick="inquireStudentCountByGrade(event)" ></td>
+			  		</tr>
+		  		</tbody>
+		  	</table>
+  		</div>
+  	</body>
+
+</html>
+
+
+

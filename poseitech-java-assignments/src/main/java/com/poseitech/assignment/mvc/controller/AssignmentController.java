@@ -52,7 +52,7 @@ public class AssignmentController extends DefaultController {
 		DefaultResponse response = new DefaultResponse();
 		try {
 			Date registerDate = null;
-			if (null != registerStr) {
+			if (null != registerStr && !registerStr.trim().isEmpty()) {
 				try {
 					registerDate = dateFormat.parse(registerStr);
 				} catch (ParseException e) {
@@ -94,17 +94,24 @@ public class AssignmentController extends DefaultController {
 	{
 		DefaultResponse response = new DefaultResponse();
 		try {
+			if (null == name || name.trim().isEmpty()) 
+				throw new ApiException(APICode.InvalidParameter, "invalid-name");
+			
+			if (null == birthdayStr || birthdayStr.trim().isEmpty()) 
+				throw new ApiException(APICode.InvalidParameter, "invalid-birthday-format");
+			
+			if (null == registerDateStr || registerDateStr.trim().isEmpty()) 
+				throw new ApiException(APICode.InvalidParameter, "invalid-register-date-format");
+			
 			StudentDto studentDto = new StudentDto();
 			studentDto.setName(name);
 			studentDto.setRemark(remark);
 			
-			if (null != birthdayStr) {
-				try {
-					Date birthdayDate = dateFormat.parse(birthdayStr);
-					studentDto.setBirthday(birthdayDate);
-				} catch (ParseException e) {
-					throw new ApiException(APICode.InvalidParameter, "invalid-birthday-format");
-				}
+			try {
+				Date birthdayDate = dateFormat.parse(birthdayStr);
+				studentDto.setBirthday(birthdayDate);
+			} catch (ParseException e) {
+				throw new ApiException(APICode.InvalidParameter, "invalid-birthday-format");
 			}
 			
 			try {
