@@ -8,7 +8,7 @@ import com.poseitech.assignment.exception.ApiException;
 import com.poseitech.assignment.response.DefaultResponse;
 import com.poseitech.assignment.response.Result;
 
-public class DefaultController {
+public abstract class DefaultController {
 
 	public DefaultResponse renderErrorResponse(Throwable causeEx)
 	{
