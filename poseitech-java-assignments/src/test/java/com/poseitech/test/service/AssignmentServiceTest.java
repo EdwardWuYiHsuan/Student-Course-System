@@ -74,7 +74,16 @@ public class AssignmentServiceTest extends AbstractTest {
 		grade.setRemark("remark");
 		Grade gradeRes = gradeDao.saveOrUpdate(grade);
 		
-		studentProjectGradeDao.markGradeToStudentProject(studentRes, projectRes, gradeRes);
+		StudentProjectGrade spg = studentProjectGradeDao.markGradeToStudentProject(studentRes, projectRes, gradeRes);
+		
+		studentRes.addStudentProjectGrade(spg);
+		studentDao.saveOrUpdate(studentRes);
+		
+		projectRes.addStudentProjectGrade(spg);
+		projectDao.saveOrUpdate(projectRes);
+		
+		gradeRes.addStudentProjectGrade(spg);
+		gradeDao.saveOrUpdate(gradeRes);
 	}
 	
 	@Test
@@ -238,25 +247,37 @@ public class AssignmentServiceTest extends AbstractTest {
 	@Test
 	public void registerProjects() throws Exception
 	{
-		StudentDto stuDto = new StudentDto();
-		stuDto.setName("myTestStudent");
-		stuDto.setRemark("myTestRemark");
-		stuDto.setBirthday(birthday);
-		stuDto.setRegisterDate(registerDate);
-		stuDto = assignmentService.createStudent(stuDto);
+		Student student = new Student();
+		student.setName("myTestStudent");
+		student.setRemark("myTestRemark");
+		student.setBirthday(birthday);
+		student.setRegisterDate(registerDate);
+		student = studentDao.saveOrUpdate(student);
 		
-		ProjectDto prjDto = new ProjectDto();
-		prjDto.setName("myTestProject");
-		prjDto.setRemark("myTestRemark");
-		List<ProjectDto> projectList = assignmentService.createProjects(new ArrayList<>(Arrays.asList(prjDto)));
+		Project project = new Project();
+		project.setName("myTestProject");
+		project.setRemark("myTestRemark");
+		project = projectDao.saveOrUpdate(project);
 		
+		StudentProjectGrade spg = new StudentProjectGrade();
+		spg.setStudent(student);
+		spg.setProject(project);
 		
-		StudentDto stu = assignmentService.registerProjects(Long.valueOf(stuDto.getId()).intValue(), projectList);
-		List<ProjectDto> projectsRes = assignmentService.getInterestedProjects(stu);
+		student.addStudentProjectGrade(spg);
+		student = studentDao.saveOrUpdate(student);
+		
+		project.addStudentProjectGrade(spg);
+		project = projectDao.saveOrUpdate(project);
+		
+		StudentDto stuDto = student.convertStudentDto();
+		List<ProjectDto> projectList = new ArrayList<>(Arrays.asList(project.convertProjectDto())); 
+		stuDto = assignmentService.registerProjects(Long.valueOf(stuDto.getId()).intValue(), projectList);
+		
+		List<ProjectDto> projectsRes = assignmentService.getInterestedProjects(stuDto);
 		assertNotNull(projectsRes);
 		assertFalse(projectsRes.isEmpty());
 		ProjectDto actualPrj = projectsRes.get(0);
-		assertEquals("myTestStudent", actualPrj.getName());
+		assertEquals("myTestProject", actualPrj.getName());
 		assertEquals("myTestRemark", actualPrj.getRemark());
 	}
 }

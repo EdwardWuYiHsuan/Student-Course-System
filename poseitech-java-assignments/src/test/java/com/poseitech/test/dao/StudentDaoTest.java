@@ -20,6 +20,7 @@ import com.poseitech.assignment.dao.StudentProjectGradeDao;
 import com.poseitech.assignment.entity.Grade;
 import com.poseitech.assignment.entity.Project;
 import com.poseitech.assignment.entity.Student;
+import com.poseitech.assignment.entity.StudentProjectGrade;
 import com.poseitech.assignment.mvc.controller.AssignmentController;
 import com.poseitech.test.AbstractTest;
 
@@ -65,7 +66,17 @@ public class StudentDaoTest extends AbstractTest {
 		grade.setRemark("remark");
 		Grade gradeRes = gradeDao.saveOrUpdate(grade);
 		
-		studentProjectGradeDao.markGradeToStudentProject(studentRes, projectRes, gradeRes);
+		StudentProjectGrade spg = studentProjectGradeDao.markGradeToStudentProject(studentRes, projectRes, gradeRes);
+		
+		// [Bug] oneToMany return emtpy collection : http://stackoverflow.com/questions/22011757/hibernate-does-not-load-one-to-many-relationships-sets-even-with-eager-fetch
+		studentRes.addStudentProjectGrade(spg);
+		studentDao.saveOrUpdate(studentRes);
+		
+		projectRes.addStudentProjectGrade(spg);
+		projectDao.saveOrUpdate(projectRes);
+		
+		gradeRes.addStudentProjectGrade(spg);
+		gradeDao.saveOrUpdate(gradeRes);
 	}
  
 	@Test
@@ -105,23 +116,6 @@ public class StudentDaoTest extends AbstractTest {
 	@Test
 	public void findStudentByProjectId() throws Exception 
 	{
-//		System.out.println("findStudentByProjectId");
-//		List<StudentProjectGrade> list = studentProjectGradeDao.findAll();
-//		System.out.println(list.size());
-//		for (StudentProjectGrade spg : list) {
-//			System.out.printf("student : %s, project : %s, grade : %s\n", spg.getStudent().getName(), 
-//																		  spg.getProject().getName(),
-//																		  spg.getGrade().getLevel());
-//		}
-//		
-//		Project test = projectDao.findById(projectId);
-//		System.out.println(test.getName());
-//		System.out.println(test.getStudentProjectGrade().size()); //error
-//		
-//		Student stu = studentDao.findById(Long.valueOf(studentId).intValue());
-//		System.out.println(stu.getName());
-//		System.out.println(stu.getStudentProjectGrade().size());
-		
 		List<Student> students = studentDao.findStudentByProjectId(Long.valueOf(projectId).intValue());
 		Assert.assertFalse(students.isEmpty());
 		assertEquals(1, students.size());

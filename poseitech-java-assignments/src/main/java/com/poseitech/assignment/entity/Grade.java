@@ -50,4 +50,8 @@ public class Grade {
 		this.studentCourseGrade = studentCourseGrade;
 	}
 	
+	public void addStudentProjectGrade(StudentProjectGrade spg) {
+		this.studentCourseGrade.add(spg);
+	}
+	
 }

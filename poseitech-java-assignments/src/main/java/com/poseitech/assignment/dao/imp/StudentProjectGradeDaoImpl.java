@@ -22,17 +22,19 @@ public class StudentProjectGradeDaoImpl implements StudentProjectGradeDao {
 	
 	
 	@Override
-	public void addProjectToStudent(Student student, Project project) throws Exception 
+	public StudentProjectGrade addProjectToStudent(Student student, Project project) throws Exception 
 	{
 		StudentProjectGrade spg = new StudentProjectGrade();
 		spg.setStudent(student);
 		spg.setProject(project);
 		
 		getSession().saveOrUpdate(spg);
+		
+		return spg;
 	}
 	
 	@Override
-	public void markGradeToStudentProject(Student student, Project project, Grade grade) throws Exception 
+	public StudentProjectGrade markGradeToStudentProject(Student student, Project project, Grade grade) throws Exception 
 	{
 		StudentProjectGrade spg = new StudentProjectGrade();
 		spg.setStudent(student);
@@ -40,6 +42,8 @@ public class StudentProjectGradeDaoImpl implements StudentProjectGradeDao {
 		spg.setGrade(grade);
 		
 		getSession().saveOrUpdate(spg);
+		
+		return spg;
 	}
 	
 	private Session getSession()
