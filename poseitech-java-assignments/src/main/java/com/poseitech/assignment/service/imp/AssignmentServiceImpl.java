@@ -97,9 +97,8 @@ public class AssignmentServiceImpl implements AssignmentService {
 				studentProjectGradeDao.addProjectToStudent(student, project);
 			}
 			
-			student = studentDao.findById(pStudendId);
-			
 			return student.convertStudentDto();
+			
 		} catch (NonUniqueObjectException e) {
 			throw new ApiException(APICode.AccessFailed, "student-has-registered-project");
 		}

@@ -20,7 +20,6 @@ import com.poseitech.assignment.dao.StudentProjectGradeDao;
 import com.poseitech.assignment.entity.Grade;
 import com.poseitech.assignment.entity.Project;
 import com.poseitech.assignment.entity.Student;
-import com.poseitech.assignment.entity.StudentProjectGrade;
 import com.poseitech.assignment.mvc.controller.AssignmentController;
 import com.poseitech.test.AbstractTest;
 
@@ -66,17 +65,17 @@ public class StudentDaoTest extends AbstractTest {
 		grade.setRemark("remark");
 		Grade gradeRes = gradeDao.saveOrUpdate(grade);
 		
-		StudentProjectGrade spg = studentProjectGradeDao.markGradeToStudentProject(studentRes, projectRes, gradeRes);
+		studentProjectGradeDao.markGradeToStudentProject(studentRes, projectRes, gradeRes);
 		
 		// [Bug] oneToMany return emtpy collection : http://stackoverflow.com/questions/22011757/hibernate-does-not-load-one-to-many-relationships-sets-even-with-eager-fetch
-		studentRes.addStudentProjectGrade(spg);
-		studentDao.saveOrUpdate(studentRes);
-		
-		projectRes.addStudentProjectGrade(spg);
-		projectDao.saveOrUpdate(projectRes);
-		
-		gradeRes.addStudentProjectGrade(spg);
-		gradeDao.saveOrUpdate(gradeRes);
+//		studentRes.addStudentProjectGrade(spg);
+//		studentDao.saveOrUpdate(studentRes);
+//		
+//		projectRes.addStudentProjectGrade(spg);
+//		projectDao.saveOrUpdate(projectRes);
+//		
+//		gradeRes.addStudentProjectGrade(spg);
+//		gradeDao.saveOrUpdate(gradeRes);
 	}
  
 	@Test

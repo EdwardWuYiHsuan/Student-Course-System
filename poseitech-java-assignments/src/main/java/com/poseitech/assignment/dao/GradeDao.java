@@ -5,6 +5,8 @@ import java.util.List;
 import com.poseitech.assignment.entity.Grade;
 
 public interface GradeDao {
+	
+	public boolean isExist(Character level);
 
 	public Grade findByLevel(Character level);
 	

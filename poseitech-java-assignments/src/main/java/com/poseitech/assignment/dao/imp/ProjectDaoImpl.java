@@ -20,7 +20,13 @@ public class ProjectDaoImpl implements ProjectDao {
 
 	@PersistenceContext
 	private EntityManager entityManager;
+
 	
+	@Override
+	public boolean isExist(Long id) 
+	{
+		return null != getSession().get(Project.class, id);
+	}
 	
 	@Override
 	public Project findById(Long id) 

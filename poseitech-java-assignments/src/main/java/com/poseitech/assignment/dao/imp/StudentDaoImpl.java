@@ -74,13 +74,13 @@ public class StudentDaoImpl implements StudentDao {
 	@SuppressWarnings("unchecked")
 	public List<Student> findAllStudents(int pStartRowNumber, int pFectchSize) throws Exception 
 	{
-//		Criteria criteria = getSession().createCriteria(Student.class);
+//		Criteria criteria = getSession().createCriteria(Student.class);	//there are some bugs in createCriteria() method
 		Query query = getSession().createQuery("from Student");
 		
 		if (pStartRowNumber >= 0)
 			query.setFirstResult(pStartRowNumber);
 		if (pFectchSize >= 0) 
-			query.setMaxResults(pFectchSize);
+			query.setMaxResults(pFectchSize);	//there are some bugs in setFetchSize() method.
 		
 		return (List<Student>) query.list();
 	}
@@ -92,11 +92,7 @@ public class StudentDaoImpl implements StudentDao {
 		Query query = getSession().createQuery(pHql);
 		for (int i = 0; i < pValues.length; i++) {
 			Object value = pValues[i];
-			if (value instanceof Character) {
-				query.setCharacter(i, (Character) value);
-			} else if (value instanceof Boolean) {
-				query.setBoolean(i, (Boolean) value);
-			} else if (value instanceof Byte) {
+			if (value instanceof Byte) {
 				query.setByte(i, (Byte) value);
 			} else if (value instanceof Short) {
 				query.setShort(i, (Short) value);
@@ -110,6 +106,10 @@ public class StudentDaoImpl implements StudentDao {
 				query.setDouble(i, (Double) value);
 			} else if (value instanceof Date) {
 				query.setDate(i, (Date) value);
+			} else if (value instanceof Boolean) {
+				query.setBoolean(i, (Boolean) value);
+			} else if (value instanceof Character) {
+				query.setCharacter(i, (Character) value);
 			} else {
 				query.setString(i, (String) value);
 			}
@@ -139,6 +139,12 @@ public class StudentDaoImpl implements StudentDao {
 		Criteria criteria = getSession().createCriteria(Student.class);
 		
 		return (List<Student>) criteria.list();
+	}
+	
+	@Override
+	public boolean isExist(Long studentId) 
+	{
+		return null != getSession().get(Student.class, studentId);
 	}
 	
 	private Session getSession()

@@ -22,6 +22,12 @@ public class GradeDaoImpl implements GradeDao {
 	
 	
 	@Override
+	public boolean isExist(Character level) 
+	{
+		return null != getSession().get(Grade.class, level);
+	}
+	
+	@Override
 	public Grade findByLevel(Character level) 
 	{
 		Object grade = getSession().get(Grade.class, level);

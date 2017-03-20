@@ -74,16 +74,7 @@ public class AssignmentServiceTest extends AbstractTest {
 		grade.setRemark("remark");
 		Grade gradeRes = gradeDao.saveOrUpdate(grade);
 		
-		StudentProjectGrade spg = studentProjectGradeDao.markGradeToStudentProject(studentRes, projectRes, gradeRes);
-		
-		studentRes.addStudentProjectGrade(spg);
-		studentDao.saveOrUpdate(studentRes);
-		
-		projectRes.addStudentProjectGrade(spg);
-		projectDao.saveOrUpdate(projectRes);
-		
-		gradeRes.addStudentProjectGrade(spg);
-		gradeDao.saveOrUpdate(gradeRes);
+		studentProjectGradeDao.markGradeToStudentProject(studentRes, projectRes, gradeRes);
 	}
 	
 	@Test
@@ -224,7 +215,7 @@ public class AssignmentServiceTest extends AbstractTest {
 		stuDto.setBirthday(birthday);
 		stuDto.setRegisterDate(registerDate);
 		
-		boolean b = assignmentService.deleteStudent(stuDto);
+		assignmentService.deleteStudent(stuDto);
 		
 		Student studentRes = studentDao.findById(Long.valueOf(studentId).intValue());
 		assertNull(studentRes);
@@ -238,7 +229,7 @@ public class AssignmentServiceTest extends AbstractTest {
 		prjDto.setName("project");
 		prjDto.setRemark("remark");
 		
-		boolean b = assignmentService.deleteProjects(new ArrayList<>(Arrays.asList(prjDto)));
+		assignmentService.deleteProjects(new ArrayList<>(Arrays.asList(prjDto)));
 		
 		Project projectRes = projectDao.findById(projectId);
 		assertNull(projectRes);

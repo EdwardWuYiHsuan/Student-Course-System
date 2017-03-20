@@ -11,6 +11,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
+import com.poseitech.assignment.dto.GradeDto;
+
 @Entity
 @Table(name = "grade")
 public class Grade {
@@ -52,6 +54,15 @@ public class Grade {
 	
 	public void addStudentProjectGrade(StudentProjectGrade spg) {
 		this.studentCourseGrade.add(spg);
+	}
+	
+	public GradeDto convertGradeDto()
+	{
+		GradeDto dto = new GradeDto();
+		dto.setLevel(this.getLevel());
+		dto.setRemark(this.getRemark());
+		
+		return dto;
 	}
 	
 }

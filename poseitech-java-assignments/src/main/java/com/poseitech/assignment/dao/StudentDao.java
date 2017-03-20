@@ -32,4 +32,6 @@ public interface StudentDao {
    
    public List<Student> findAll();
    
+   public boolean isExist(Long studentId);
+   
 }
