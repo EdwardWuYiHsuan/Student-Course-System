@@ -33,11 +33,11 @@ public class DefaultResponse {
 		this.result = result;
 		this.reason = causeEx.getMessage();
 		
-		if (causeEx instanceof ApiException) 
+		if (causeEx instanceof ApiException) {
 			this.code = ((ApiException) causeEx).getCode();
-		else
+		} else {
 			this.code = APICode.Other.getCode();
-			
+		}
 	}
 	
 	public DefaultResponse setData(Object data)

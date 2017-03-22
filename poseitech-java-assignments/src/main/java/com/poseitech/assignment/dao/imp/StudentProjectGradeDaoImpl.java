@@ -57,11 +57,11 @@ public class StudentProjectGradeDaoImpl implements StudentProjectGradeDao {
 	@Override
 	public StudentProjectGrade markGradeToStudentProject(Student student, Project project, Grade grade) throws Exception 
 	{
-		if (null == student.getId())
+		if (null == student || null == student.getId())
 			throw new IllegalArgumentException("invalid-student-id");
-		if (null == project.getId())
+		if (null == project || null == project.getId())
 			throw new IllegalArgumentException("invalid-project-id");
-		if (null == grade.getLevel())
+		if (null == grade || null == grade.getLevel())
 			throw new IllegalArgumentException("invalid-grade-level");
 		
 		StudentProjectGrade spg = new StudentProjectGrade();

@@ -1,8 +1,12 @@
 package com.poseitech.test.dao;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+
 import java.util.List;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.poseitech.assignment.dao.ProjectDao;
 import com.poseitech.assignment.entity.Project;
 import com.poseitech.test.AbstractTest;
-
-import static org.junit.Assert.*;
 
 @Transactional
 public class ProjectDaoTest extends AbstractTest {
